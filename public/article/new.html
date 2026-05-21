@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>New Article</h2>
+    <form action="/article/add" method="post" target="_self">
+        <input type="text" id="article-title" name="article-title" placeholder="Article Title">
+        <br>
+        <input type="date" id="article-date" name="article-date" placeholder="Article Date">
+        <br>
+        <textarea name="article-content" id="article-content" placeholder="Content"></textarea>
+        <br>
+        <button type="submit">Publish</button>
+    </form>
+    <a href="index.html">New Post</a>
+</body>
+</html>
