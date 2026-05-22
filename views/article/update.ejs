@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Update Article</h2>
+    <form action="/article/update/<%= article.id %>" method="post" target="_self">
+        <input type="text" id="title" name="title" placeholder="Article Title" value="<%= article.title %>">
+        <br>
+        <input type="date" id="date" name="date" placeholder="Article Date" 
+        value="<%= article.date %>">
+        <br>
+        <textarea name="content" id="content" placeholder="Content"><%= article.content %></textarea>
+        <br>
+        <button type="submit">Publish</button>
+    </form>
+    <a href="/">New Post</a>
+</body>
+</html>

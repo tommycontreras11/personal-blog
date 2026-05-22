@@ -39,6 +39,11 @@ const readData = async () => {
   }
 };
 
+const getArticle = async (id) => {
+    const articles = await readData();
+    return articles.find((a) => Number(a["id"]) === Number(id))
+}
+
 app.get("/", async (req, res) => {
   const articles = await readData();
   res.render("index.ejs", { articles });
@@ -47,6 +52,33 @@ app.get("/", async (req, res) => {
 app.get("/article/new", (req, res) => {
     res.render("article/new");
 });
+
+app.get(`/article/update/:id`, async (req, res) => {
+    const { id } = req.params
+
+    const article = await getArticle(id)
+    if(!article) {
+        res.redirect("/")
+        return
+    }
+
+    res.render("article/update", { article })
+})
+
+app.post(`/article/update/:id`, async (req, res) => {
+    const { id } = req.params
+    const articles = await readData()
+
+    let index = articles.findIndex((a) => Number(a["id"]) === Number(id))
+
+    Object.entries(req.body).forEach(([key, value]) => {
+        value && (articles[index][key] = value)
+    })
+
+    await writeData(articles)
+
+    res.redirect("/")
+})
 
 app.post("/article/add", async (req, res) => {
   let articles = await readData();
