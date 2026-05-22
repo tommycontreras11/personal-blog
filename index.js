@@ -101,7 +101,7 @@ app.post("/article/add", async (req, res) => {
   return res.redirect("/admin");
 });
 
-app.get(`/article/update/:id`, async (req, res) => {
+app.get("/article/edit/:id", async (req, res) => {
   const { id } = req.params;
 
   const article = await getArticle(id);
@@ -110,10 +110,10 @@ app.get(`/article/update/:id`, async (req, res) => {
     return;
   }
 
-  res.render("article/update", { article });
+  res.render("article/edit", { article });
 });
 
-app.post(`/article/modify/:id`, async (req, res) => {
+app.post("/article/modify/:id", async (req, res) => {
   const { id } = req.params;
   const articles = await readData();
 
@@ -122,6 +122,34 @@ app.post(`/article/modify/:id`, async (req, res) => {
   Object.entries(req.body).forEach(([key, value]) => {
     value && (articles[index][key] = value);
   });
+
+  await writeData(articles);
+
+  return res.redirect("/admin");
+});
+
+app.get("/article/delete/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const articles = await readData();
+
+  let index = articles.findIndex((a) => Number(a["id"]) === Number(id));
+
+  if(index === -1) {
+      return res.redirect("/admin");    
+  }
+
+  return res.render("article/delete", { id: Number(id) });
+});
+
+app.post("/article/delete/:id", async (req, res) => {
+  const { id } = req.params;
+
+  let articles = await readData();
+
+  let index = articles.findIndex((a) => Number(a["id"]) === Number(id));
+
+  articles = articles.filter((article) => Number(article["id"]) !== Number(id));
 
   await writeData(articles);
 

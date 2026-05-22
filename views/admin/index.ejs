@@ -15,7 +15,8 @@
                 <p style="display: inline;"><%= article.title %></p>
                 <p style="display: inline; margin-left: 30px;"><%= article.date %></p>
                 <a href="/article/<%= article.id %>">View</a>
-                <a href="/article/update/<%= article.id %>">Update</a>
+                <a href="/article/update/<%= article.id %>">Edit</a>
+                <a href="/article/delete/<%= article.id %>">Delete</a>
             </div>
         <% }) %>
     </div>
