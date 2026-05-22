@@ -7,7 +7,7 @@
 </head>
 <body>
     <h2>Update Article</h2>
-    <form action="/article/update/<%= article.id %>" method="post" target="_self">
+    <form action="/article/modify/<%= article.id %>" method="post" target="_self">
         <input type="text" id="title" name="title" placeholder="Article Title" value="<%= article.title %>">
         <br>
         <input type="date" id="date" name="date" placeholder="Article Date" 

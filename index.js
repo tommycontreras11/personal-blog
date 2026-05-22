@@ -1,9 +1,11 @@
 import express from "express";
 import fs from "fs/promises";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.set("view engine", "ejs");
 
 app.listen(3000, () => {
@@ -40,45 +42,49 @@ const readData = async () => {
 };
 
 const getArticle = async (id) => {
-    const articles = await readData();
-    return articles.find((a) => Number(a["id"]) === Number(id))
-}
+  const articles = await readData();
+  return articles.find((a) => Number(a["id"]) === Number(id));
+};
 
 app.get("/", async (req, res) => {
   const articles = await readData();
   res.render("index.ejs", { articles });
 });
 
-app.get("/article/new", (req, res) => {
-    res.render("article/new");
+app.get("/admin", async (req, res) => {
+  if (!req.cookies.user) return res.redirect("/");
+
+  const articles = await readData();
+  res.render("admin/index", { articles });
 });
 
-app.get(`/article/update/:id`, async (req, res) => {
-    const { id } = req.params
+app.get("/login", async (req, res) => {
+  res.render("login/index", { error: "" });
+});
 
-    const article = await getArticle(id)
-    if(!article) {
-        res.redirect("/")
-        return
-    }
+app.post("/sign-in", async (req, res) => {
+  const { user, password } = req.body;
 
-    res.render("article/update", { article })
-})
+  if (user === "admin" && password === "1234") {
+    res.cookie("user", JSON.stringify({ user }));
+    return res.redirect("/admin");
+  }
 
-app.post(`/article/update/:id`, async (req, res) => {
-    const { id } = req.params
-    const articles = await readData()
+  res.render("login/index", { error: "Invalid username or password." });
+});
 
-    let index = articles.findIndex((a) => Number(a["id"]) === Number(id))
+app.get("/article/new", (req, res) => {
+  if (!req.cookies.user) return res.redirect("/");
+  res.render("article/new");
+});
 
-    Object.entries(req.body).forEach(([key, value]) => {
-        value && (articles[index][key] = value)
-    })
+app.get("/article/:id", async (req, res) => {
+  const { id } = req.params;
 
-    await writeData(articles)
+  const article = await getArticle(id);
 
-    res.redirect("/")
-})
+  res.render("article/index", { article });
+});
 
 app.post("/article/add", async (req, res) => {
   let articles = await readData();
@@ -92,7 +98,34 @@ app.post("/article/add", async (req, res) => {
 
   await writeData(articles);
 
-  res.redirect("/article/new");
+  return res.redirect("/admin");
+});
+
+app.get(`/article/update/:id`, async (req, res) => {
+  const { id } = req.params;
+
+  const article = await getArticle(id);
+  if (!article) {
+    res.redirect("/");
+    return;
+  }
+
+  res.render("article/update", { article });
+});
+
+app.post(`/article/modify/:id`, async (req, res) => {
+  const { id } = req.params;
+  const articles = await readData();
+
+  let index = articles.findIndex((a) => Number(a["id"]) === Number(id));
+
+  Object.entries(req.body).forEach(([key, value]) => {
+    value && (articles[index][key] = value);
+  });
+
+  await writeData(articles);
+
+  return res.redirect("/admin");
 });
 
 initDataFile();
