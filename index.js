@@ -1,34 +1,66 @@
-import express from "express"
-import path from "path"
-import { fileURLToPath } from "url"
+import express from "express";
+import fs from "fs/promises";
 
-const app = express()
+const app = express();
 
-app.use(express.static("public"))
+app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
 
 app.listen(3000, () => {
-    console.log("Running on port 3000")
-})
+  console.log("Running on port 3000");
+});
 
-const reRenderPage = (page) => {
-    const __filename = fileURLToPath(import.meta.url)
-    const __dirname = path.dirname(__filename)
+const FILE_PATH = "article.json";
 
-    return path.join(__dirname, page)
-}
+const writeData = async (data) => {
+  await fs.writeFile(FILE_PATH, JSON.stringify(data, null, 2), "utf8");
+};
 
-app.get("/", (req, res) => {
-    res.sendFile(reRenderPage("index.html"))
-})
+const initDataFile = async () => {
+  try {
+    await fs.access(FILE_PATH);
+  } catch {
+    await writeData([]);
+  }
+};
 
-app.get("/article/add", (req, res) => {
-    res.sendFile(reRenderPage("/article/new.html"))
-})
+const readData = async () => {
+  try {
+    const data = await fs.readFile(FILE_PATH, "utf8");
 
-app.post("/article/add", (req, res) => {
-    console.log(req.body)
-})
+    if (!data.trim()) return [];
 
-// addArticleToJson = async (data) => {
-//     await fs.writeFile(ARTICLE_JSON, JSON.stringify(data, null, 2), "utf8")
-// }
+    return JSON.parse(data);
+  } catch (error) {
+    if (error.code === "ENOENT") return [];
+
+    console.error(error);
+    return [];
+  }
+};
+
+app.get("/", async (req, res) => {
+  const articles = await readData();
+  res.render("index.ejs", { articles });
+});
+
+app.get("/article/new", (req, res) => {
+    res.render("article/new");
+});
+
+app.post("/article/add", async (req, res) => {
+  let articles = await readData();
+
+  let article = {
+    ...req.body,
+    id: articles.length + 1,
+  };
+
+  articles.push(article);
+
+  await writeData(articles);
+
+  res.redirect("/article/new");
+});
+
+initDataFile();
