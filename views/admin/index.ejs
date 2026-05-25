@@ -4,22 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/post-admin-style.css">
 </head>
 <body>
-    <h1>Personal Blog</h1>
-    <a href="/article/new">New Post</a>
-    <% if(articles.length > 0)  { %>
-    <div class="posts">
-        <% articles.forEach(article => { %>
-            <div class="post">
-                <p style="display: inline;"><%= article.title %></p>
-                <p style="display: inline; margin-left: 30px;"><%= article.date %></p>
-                <a href="/article/<%= article.id %>">View</a>
-                <a href="/article/update/<%= article.id %>">Edit</a>
-                <a href="/article/delete/<%= article.id %>">Delete</a>
-            </div>
-        <% }) %>
+    <div class="blog">
+        <div class="blog-header">
+            <h1>Personal Blog</h1>
+            <a href="/article/new">+ Add</a>
+        </div>
+
+        <% if(articles.length > 0)  { %>
+        <div class="posts">
+            <% articles.forEach(article => { %>
+                <div class="post">
+                    <div class="post-info">
+                        <p><%= article.title %></p>
+                    </div>
+                    <div class="post-actions">
+                        <a href="/article/<%= article.id %>">View</a>
+                        <a href="/article/edit/<%= article.id %>">Edit</a>
+                        <a href="/article/delete/<%= article.id %>">Delete</a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+        <% } %>
     </div>
-    <% } %>
 </body>
 </html>

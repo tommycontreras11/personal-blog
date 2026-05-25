@@ -6,6 +6,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.static("public"))
 app.set("view engine", "ejs");
 
 app.listen(3000, () => {
@@ -54,10 +55,21 @@ app.get("/article/:id", async (req, res) => {
 });
 
 app.post("/article/add", async (req, res) => {
+  const { title, date, content } = req.body
   let articles = await readData();
 
+  const dateConverted = new Date(date)
+
+  const formattedDate = dateConverted.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
   let article = {
-    ...req.body,
+    title,
+    date: formattedDate,
+    content,
     id: articles.length + 1,
   };
 

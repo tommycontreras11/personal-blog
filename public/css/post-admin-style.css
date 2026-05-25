@@ -1,0 +1,50 @@
+.blog {
+    width: 500px;
+    margin: 0 0 8px 8px;
+}
+
+.blog-header {
+    display: flex;
+    align-items: center;
+}
+
+.blog-header a {
+    margin-left: auto;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.blog-header a:hover {
+    color: #ccc
+}
+
+.post {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.post .post-info {
+    font-weight: bold;
+}
+
+.post .post-actions {
+    display: flex;
+    gap: 8px
+}
+
+.post .post-actions a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.post .post-actions p {
+    color: #ccc;
+}
+
+.post .post-actions a:hover {
+    cursor: pointer;
+    color: black;
+}
