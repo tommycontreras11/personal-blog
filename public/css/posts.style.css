@@ -1,0 +1,35 @@
+.blog {
+    width: 400px;
+    margin: 0 0 8px 8px;
+}
+
+.blog-header {
+    display: flex;
+    align-items: center;
+}
+
+.post {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-info {
+    display: flex;
+    gap: 8px;
+}
+
+.post .post-info {
+    font-weight: bold;
+}
+
+.post .post-actions a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.post .post-actions a:hover {
+    cursor: pointer;
+    color: black;
+}

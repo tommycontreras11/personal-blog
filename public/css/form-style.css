@@ -1,0 +1,32 @@
+.form-input > * {
+    width: 260px;
+    height: 30px;
+    margin-bottom: 4px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+#title, #content {
+    text-indent: 8px;
+}
+
+#date {
+    text-indent: 2px;
+}
+
+#content {
+    height: 80px;
+}
+
+button {
+    width: 80px;
+    height: 34px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #ccc;
+}

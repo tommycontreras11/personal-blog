@@ -4,21 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/posts.style.css">
 </head>
 <body>
-    <h1>Personal Blog</h1>
-    <% if(articles.length > 0)  { %>
-    <div class="posts">
-        <% articles.forEach(article => { %>
-            <div class="post">
-                <p style="display: inline;"><%= article.title %></p>
-                <p style="display: inline; margin-left: 30px;"><%= article.date %></p>
-                <a href="/article/<%= article.id %>">View</a>
-            </div>
-        <% }) %>
+        <div class="blog">
+        <div class="blog-header">
+            <h1>Personal Blog</h1>
+        </div>
+
+        <% if(articles.length > 0)  { %>
+        <div class="posts">
+            <% articles.forEach(article => { %>
+                <div class="post">
+                    <div class="post-info">
+                        <p><%= article.title %></p>
+                        <p><%= article.date%></p>
+                    </div>
+                    <div class="post-actions">
+                        <a href="/article/<%= article.id %>">View</a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+        <% } %>
     </div>
-    <% } else {  %>
-      <p>No articles found</p>
-    <% } %>
 </body>
 </html>

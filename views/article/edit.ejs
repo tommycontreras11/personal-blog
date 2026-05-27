@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+    <link rel="stylesheet" href="/css/form-style.css" />
+  </head>
+  <body>
     <h2>Update Article</h2>
-    <form action="/article/modify/<%= article.id %>" method="post" target="_self">
-        <input type="text" id="title" name="title" placeholder="Article Title" value="<%= article.title %>">
-        <br>
-        <input type="date" id="date" name="date" placeholder="Article Date" 
-        value="<%= article.date %>">
-        <br>
-        <textarea name="content" id="content" placeholder="Content"><%= article.content %></textarea>
-        <br>
-        <button type="submit">Publish</button>
+    <form
+      action="/article/modify/<%= article.id %>"
+      method="post"
+      target="_self"
+    >
+      <div class="form-input">
+        <input
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Article Title"
+          value="<%= article.title %>"
+        />
+      </div>
+      <div class="form-input">
+        <input
+          type="date"
+          id="date"
+          name="date"
+          placeholder="Publishing Date"
+          value="<%= article.date %>"
+        />
+      </div>
+      <div class="form-input">
+        <textarea name="content" id="content" placeholder="Content">
+<%= article.content %></textarea
+        >
+      </div>
+      <button type="submit">Update</button>
     </form>
-    <a href="/">New Post</a>
-</body>
+  </body>
 </html>

@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+    <link rel="stylesheet" href="/css/form-style.css" />
+  </head>
+  <body>
     <h2>New Article</h2>
     <form action="/article/add" method="post" target="_self">
-        <input type="text" id="title" name="title" placeholder="Article Title">
-        <br>
-        <input type="date" id="date" name="date" placeholder="Article Date">
-        <br>
+      <div class="form-input">
+        <input
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Article Title"
+        />
+      </div>
+      <div class="form-input">
+        <input type="date" id="date" name="date" placeholder="Article Date" />
+      </div>
+      <div class="form-input">
         <textarea name="content" id="content" placeholder="Content"></textarea>
-        <br>
-        <button type="submit">Publish</button>
+      </div>
+      <button type="submit">Publish</button>
     </form>
-    <a href="/">New Post</a>
-</body>
+  </body>
 </html>
