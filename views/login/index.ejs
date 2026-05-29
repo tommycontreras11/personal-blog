@@ -4,17 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
+    <link rel="stylesheet" href="/css/login-style.css">
 </head>
 <body>
-    <% if(error) { %>
-        <h2><%= error %></h2>
-    <% } %>
-    <form action="/sign-in" method="post">
-        <label for="">User</label>
-        <input type="text" name="user" placeholder="User">
-        <label for="">Password</label>
-        <input type="text" name="password" placeholder="Password">
-        <button type="submit">Sign In</button>
-    </form>
+    <div class="form">
+        <form action="/sign-in" method="post">
+            <h2>Sign In</h2>
+            <hr>
+            <div class="form-input">
+                <label for="">User</label>
+                <input type="text" name="user" placeholder="User" value="<%= user_input %>">
+                <% if(user_error) { %>
+                    <p id="user-error"><%= user_error %></p>
+                <% } %>
+            </div>
+            <div class="form-input">
+                <label for="">Password</label>
+                <input type="password" name="password" placeholder="Password" value="<%= password_input %>">
+
+                <% if(password_error) { %>
+                    <p id="password-error"><%= password_error %></p>
+                <% } %>
+            </div>
+       
+            <% if(error) { %>
+                <p id="form-error"><%= error %></p>
+            <% } %>
+
+            <div class="btn-submit">
+                <button type="submit">Sign In</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
