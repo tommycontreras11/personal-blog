@@ -84,7 +84,7 @@ app.post("/article/add", async (req, res) => {
   })
 });
 
-app.get("/article/edit/:id", async (req, res) => {
+app.get("/article/:id/edit", async (req, res) => {
   const { id } = req.params;
 
   const article = await getArticle(id);
@@ -96,7 +96,7 @@ app.get("/article/edit/:id", async (req, res) => {
   res.render("article/edit", { article });
 });
 
-app.post("/article/modify/:id", async (req, res) => {
+app.post("/article/:id/modify", async (req, res) => {
   const { id } = req.params;
   const articles = await readData();
 
@@ -111,7 +111,7 @@ app.post("/article/modify/:id", async (req, res) => {
   return res.redirect("/admin");
 });
 
-app.get("/article/delete/:id", async (req, res) => {
+app.get("/article/:id/delete", async (req, res) => {
   const { id } = req.params;
 
   const articles = await readData();
