@@ -8,7 +8,7 @@
   </head>
   <body>
     <h2>New Article</h2>
-    <form action="/article/add" method="post" target="_self">
+    <form id="form" method="post" target="_self">
       <div class="form-input">
         <input
           type="text"
@@ -16,14 +16,102 @@
           name="title"
           placeholder="Article Title"
         />
+        <p id="title-error"></p>
       </div>
       <div class="form-input">
         <input type="date" id="date" name="date" placeholder="Article Date" />
+        <p id="date-error"></p>
       </div>
       <div class="form-input">
         <textarea name="content" id="content" placeholder="Content"></textarea>
+        <p id="content-error"></p>
       </div>
       <button type="submit">Publish</button>
     </form>
   </body>
+
+  <script>
+    const formFields = [
+      {
+        id: "title",
+        errorField: "title-error",
+        isRequired: true
+      },
+      {
+        id: "date",
+        errorField: "date-error",
+        isRequired: true
+      },
+      {
+        id: "content",
+        errorField: "content-error",
+        isRequired: true  
+      }
+    ]
+
+    const validateFields = (form) => {
+      let hasError = false
+
+      for(const field of formFields) {
+        const errorElement = getErrorElement(field)
+        const error = validateField(form, field)
+
+        errorElement.textContent = error;
+        errorElement.style.color = error ? "red" : "black";
+        errorElement.style.display = error ? "block" : "none"
+
+        if(error) hasError = true
+      }
+
+      return hasError
+    }
+
+    let form = document.getElementById("form")
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault()
+
+      const isFormInvalid = validateFields(form)
+
+      if(isFormInvalid) return
+
+      let formData = new FormData(form)
+
+      let formValues = {}
+
+      formData.forEach((value, key) => {
+        formValues[key] = value
+      })
+
+      const response = await fetch("http://localhost:3000/article/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formValues)
+      })
+
+      const data = await response.json()
+
+      if(data.redirect) {
+        window.location.href = data.redirect
+      }
+    })
+
+    const getErrorElement = (field) => {
+      return document.getElementById(field.errorField)
+    }
+
+    const validateField = (form, field) => {
+      const element = form.elements[field.id]
+
+      const value = element.value.trim()
+
+      if(field.isRequired && value == "") {
+        return `This field is required`
+      }
+
+      return ""
+    }
+  </script>
 </html>

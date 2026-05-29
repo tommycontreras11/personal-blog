@@ -1,18 +1,18 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import { writeData, initDataFile, readData, getArticle } from "./helper.js"
+import { writeData, initDataFile, readData, getArticle } from "./helper.js";
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
 app.use(cookieParser());
-app.use(express.static("public"))
+app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 app.listen(3000, () => {
   console.log("Running on port 3000");
 });
-
 
 app.get("/", async (req, res) => {
   const articles = await readData();
@@ -55,10 +55,12 @@ app.get("/article/:id", async (req, res) => {
 });
 
 app.post("/article/add", async (req, res) => {
-  const { title, date, content } = req.body
+  if (!req.cookies.user) return res.redirect("/");
+
+  const { title, date, content } = req.body;
   let articles = await readData();
 
-  const dateConverted = new Date(date)
+  const dateConverted = new Date(date);
 
   const formattedDate = dateConverted.toLocaleDateString("en-US", {
     month: "long",
@@ -77,7 +79,9 @@ app.post("/article/add", async (req, res) => {
 
   await writeData(articles);
 
-  return res.redirect("/admin");
+  return res.json({
+    redirect: "/admin"
+  })
 });
 
 app.get("/article/edit/:id", async (req, res) => {
@@ -114,8 +118,8 @@ app.get("/article/delete/:id", async (req, res) => {
 
   let index = articles.findIndex((a) => Number(a["id"]) === Number(id));
 
-  if(index === -1) {
-      return res.redirect("/admin");    
+  if (index === -1) {
+    return res.redirect("/admin");
   }
 
   return res.render("article/delete", { id: Number(id) });

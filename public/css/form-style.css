@@ -1,21 +1,33 @@
-.form-input > * {
+#title, #content {
+    text-indent: 8px;
     width: 260px;
     height: 30px;
     margin-bottom: 4px;
     border: 2px solid black;
     border-radius: 4px;
-}
-
-#title, #content {
-    text-indent: 8px;
+    color: black;
 }
 
 #date {
     text-indent: 2px;
+    width: 260px;
+    height: 30px;
+    margin-bottom: 4px;
+    border: 2px solid black;
+    border-radius: 4px;
+    color: black;
 }
 
-#content {
-    height: 80px;
+#title-error {
+    display: none;
+}
+
+#date-error {
+    display: none;
+}
+
+#content-error {
+    display: none;
 }
 
 button {
