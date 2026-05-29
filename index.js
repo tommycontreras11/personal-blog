@@ -5,7 +5,7 @@ import { writeData, initDataFile, readData, getArticle } from "./helper.js";
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
+app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -27,7 +27,13 @@ app.get("/admin", async (req, res) => {
 });
 
 app.get("/login", async (req, res) => {
-  res.render("login/index", { error: "", user_input: "", password_input: "", user_error: "", password_error: "" });
+  res.render("login/index", {
+    error: "",
+    user_input: "",
+    password_input: "",
+    user_error: "",
+    password_error: "",
+  });
 });
 
 app.post("/sign-in", async (req, res) => {
@@ -36,14 +42,14 @@ app.post("/sign-in", async (req, res) => {
   if (user === "admin" && password === "1234") {
     res.cookie("user", JSON.stringify({ user }));
     return res.redirect("/admin");
-  } 
+  }
 
-  res.render("login/index", { 
+  res.render("login/index", {
     user_input: user,
     password_input: password,
     error: user && password ? "Invalid username or password." : "",
     user_error: !user ? "The field is required." : "",
-    password_error: !password ? "The field is required." : ""
+    password_error: !password ? "The field is required." : "",
   });
 });
 
@@ -86,8 +92,8 @@ app.post("/article/add", async (req, res) => {
   await writeData(articles);
 
   return res.json({
-    redirect: "/admin"
-  })
+    redirect: "/admin",
+  });
 });
 
 app.get("/article/:id/edit", async (req, res) => {
